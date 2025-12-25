@@ -1,7 +1,11 @@
 deploy_path: /etc/nginx/deploy
 nginx_version: "=1.18.0-6ubuntu14.7"
-user: aaarab
+user: nhamarrass
 nginx_user: www-data
 nginx_worker_connections: 768
 nginx_types_hash_max_size: 2048
 nginx_module_includes: /etc/nginx/modules-enabled/*.conf
+nginx_server_name : bouchta
+load_balancing : false
+nginx_port : 80
+nginx_path : /var/www/html/

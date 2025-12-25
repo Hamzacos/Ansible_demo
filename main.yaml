@@ -1,11 +1,7 @@
 - name: Install Nginx
   hosts: webservers
   become: true
-#  vars:
-#    nginx_doc_root_debian: /var/www/html
-#    nginx_doc_root_redhat: /usr/share/nginx/html
-#    nginx_doc_root: "{{ nginx_doc_root_debian if ansible_os_family == 'Debian' else nginx_doc_root_redhat }}"
-
+  
   tasks:
     - name: Install Nginx (Fedora/RHEL/CentOS)
       yum:
@@ -46,10 +42,10 @@
             path: /etc/nginx/sites-enabled/
             state: directory
             mode: '0755'
-        - name: copy default config to sites-enabled
+        - name: copy default.j2 config to sites-enabled
           become: true
-          copy:
-            src: etc/nginx/sites-enabled/default
+          template:
+            src: etc/nginx/sites-enabled/default.j2
             dest: /etc/nginx/sites-enabled/default
           notify: Restart nginx
 

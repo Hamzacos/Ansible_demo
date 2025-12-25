@@ -1,0 +1,35 @@
+{% if load_balancing %}
+   upstream backend_servers {
+   {% for server in servers %}
+   server {{server}};
+
+   {% endfor %}
+  }
+{% endif %}
+
+server {
+        listen {{nginx_port}} default_server;
+        listen [::]:{{nginx_port}} default_server;
+
+       {% if not load_balancing %}
+       root {{nginx_path}};
+       {% endif %}
+       
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name {{nginx_server_name}};
+
+        location / {
+
+               {% if load_balancing %}
+                proxy_pass http://backend_servers;
+
+                {% else %}
+
+                try_files $uri $uri/ =404;
+
+                {% endif %}
+
+        }
+
+}
