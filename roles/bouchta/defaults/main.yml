@@ -1,0 +1,15 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for bouchta
+nginx_version: "=1.18.0-6ubuntu14.7"
+nginx_worker_connections: 768
+nginx_types_hash_max_size: 2048
+nginx_module_includes: /etc/nginx/modules-enabled/*.conf
+nginx_server_name : _
+nginx_port : 80
+nginx_path : /var/www/html/
+load_balancing : false
+servers : []
+
+
+

@@ -1,0 +1,19 @@
+    - name: Install Nginx (Fedora/RHEL/CentOS)
+      yum:
+        name: nginx
+        state: present
+        update_cache: yes
+      notify: Restart nginx
+      when: ansible_os_family == "RedHat"
+      tags:
+        - installation
+
+    - name: Install Nginx (Debian)
+      apt:
+        name: "nginx{{ nginx_version | default('') }}"
+        state: present
+        update_cache: yes
+      notify: Restart nginx
+      when: ansible_os_family == "Debian"
+      tags:
+        - installation

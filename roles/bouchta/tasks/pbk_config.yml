@@ -1,0 +1,39 @@
+- name: CONFIGURE NGINX TO START AT BOOT
+  block:
+    - name: backup old config
+      copy:
+        src: /etc/nginx/nginx.conf
+        dest: /etc/nginx/nginx.conf.bak
+        remote_src: yes
+
+    - name: deploy new config
+      template:
+        src: etc/nginx/nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+      notify: Restart nginx
+
+    - name: Create a directory
+      ansible.builtin.file:
+        path: /etc/nginx/sites-enabled/
+        state: directory
+        mode: '0755'
+
+    - name: copy default.j2 config to sites-enabled
+      template:
+        src: etc/nginx/sites-enabled/default.j2
+        dest: /etc/nginx/sites-enabled/default
+      notify: Restart nginx
+
+    - name: Create a directory for deploy
+      ansible.builtin.file:
+        path: /var/www/html
+        state: directory
+        mode: '0755'
+
+  rescue:
+    - name: Restore old config
+      copy:
+        src: /etc/nginx/nginx.conf.bak
+        dest: /etc/nginx/nginx.conf
+        remote_src: yes
+      notify: Restart nginx

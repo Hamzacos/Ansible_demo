@@ -1,7 +1,5 @@
-nginx_user: nginx
 nginx_worker_connections: 1024
 nginx_module_includes: /usr/share/nginx/modules/*.conf
 load_balancing : true
 servers : [web1, web2, web3]
-nginx_port : 80
 nginx_server_name : bouchta
