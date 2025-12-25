@@ -1,0 +1,4 @@
+nginx_user: nginx
+nginx_worker_connections: 1024
+nginx_types_hash_max_size: 4096
+nginx_module_includes: /usr/share/nginx/modules/*.conf

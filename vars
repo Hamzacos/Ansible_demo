@@ -1,0 +1,4 @@
+user debian:www-data centos: nginx
+worker_connections debian:768 centos:1024
+include debian:/etc/nginx/modules-enabled/*.conf centos:/usr/share/nginx/modules/*.conf
+types_hash_max_size debian: 2048 centos: 4096

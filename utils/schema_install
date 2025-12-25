@@ -1,0 +1,50 @@
+sudo apt update
+sudo apt install -y lxc
+ lxc init
+for  i in {1..3}; do lxc launch ubuntu:jammy web${i} ; done
+sudo apt install software-properties-common
+sudo add-apt-repository --yes --update ppa:ansible/ansible
+sudo apt install ansible
+ 
+ 
+# machines lxc
+# on change ${user} avec le nom d'utilisateur que vous souhaitez créer
+lxc exec web1 bash
+useradd -s /bin/bash -m ${user}
+passwd ${user}
+apt install -y ssh
+ 
+ 
+lxc exec web2 bash
+useradd -s /bin/bash -m ${user}
+passwd ${user}
+apt install -y ssh
+ 
+ 
+lxc exec web3 bash
+useradd -s /bin/bash -m ${user}
+passwd ${user}
+apt install -y ssh
+ 
+sur toutes les machine lxc
+sudo visudo
+${user} ALL=(ALL:ALL) NOPASSWD:ALL
+
+
+sudo lxc list
+ssh-keygen
+Pour chaque machine :
+sudo lxc exec web${i} bash
+nano /etc/ssh/sshd_config.d/60-cloudimg-settings.conf (changer le passwordAuthentication à YES)
+service sshd restart 
+exit
+dans la machine principale : ssh-copy-id user@ipAddress
+
+
+### pour cree la machine web4: 
+lxc exec web4 bash
+useradd -s /bin/bash -m ${user}
+passwd ${user}
+yum update
+yum install -y openssh-server
+service sshd start
